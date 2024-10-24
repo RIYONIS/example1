@@ -65,3 +65,99 @@ int main(int argc, char **argv) {
 
     return 0;
 }
+
+
+//Mouse
+#include <GL/glut.h>
+#include <stdio.h>
+
+void myinit() {
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+    glPointSize(4.0);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_LINES);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex2i(5, 10);
+    glVertex2i(10, 15);
+    glEnd();
+    glFlush();
+}
+
+void myMouse(int button, int state, int x, int y) {
+    if ((button == GLUT_RIGHT_BUTTON)||(button == GLUT_LEFT_BUTTON) && state == GLUT_DOWN) {
+        exit(0);
+    }
+}
+
+int main(int argc, char *argv[]) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("Simple OpenGL Example");
+    glutInitWindowPosition(58, 100);
+    glutDisplayFunc(display);
+    myinit();
+    glutMouseFunc(myMouse);
+    glutMainLoop();
+    
+    return 0;
+}
+
+
+
+//reshape.c
+
+#include <GL/glut.h>
+#include <stdio.h>
+
+void myinit() {
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    gluOrtho2D(0.0, 100.0, 0.0, 100.0);
+    glPointSize(4.0);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_LINES);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex2i(5, 10);
+    glVertex2i(10, 15);
+    glEnd();
+    glFlush();
+}
+
+void myReshape(GLsizei w, GLsizei h) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0.0, (GLdouble)w, 0.0, (GLdouble)h);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();  // Added missing parentheses
+    glViewport(0, 0, w, h);
+}
+
+/*void myMouse(int button, int state, int x, int y) {
+    if ((button == GLUT_LEFT_BUTTON || button == GLUT_RIGHT_BUTTON) && state == GLUT_DOWN) {
+        exit(0);
+    }
+}*/
+
+int main(int argc, char *argv[]) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("Simple OpenGL Example");
+    glutInitWindowPosition(58, 100);
+    glutDisplayFunc(display);
+    myinit();
+    glutReshapeFunc(myReshape);  // Fixed function name
+   // glutMouseFunc(myMouse);
+    glutMainLoop();
+    
+    return 0;
+}
+
+
